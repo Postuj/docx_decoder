@@ -12,6 +12,8 @@ root.withdraw()
 raw_files = filedialog.askopenfilenames()
 source_files = [f for f in raw_files if f.endswith('.xml')]
 
+output_dir = filedialog.askdirectory()
+
 for source in source_files:
     body = []
     with open(source, "r") as f:
@@ -22,7 +24,7 @@ for source in source_files:
     files = soup.find_all('dtsf:Plik')
 
     for file in files:
-        filename = './odkodowane/' + file.find('dtsf:Nazwa').text
+        filename = os.path.join(output_dir, file.find('dtsf:Nazwa').text)
         content = file.find('dtsf:Zawartosc').text
         content_bytes = content.encode('utf-8')
         with open(filename, 'wb') as result_file:
